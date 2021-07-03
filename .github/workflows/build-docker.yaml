@@ -27,7 +27,7 @@ jobs:
       # Build docker image
       - name: Image
         run: |-
-          docker build --build-arg -t gcr.io/furkanthehuman/atolye:latest .
+          docker build -t gcr.io/furkanthehuman/atolye:latest .
       # Configure docker to use the gcloud command-line tool as a credential helper
       - run: |
           gcloud auth configure-docker -q
