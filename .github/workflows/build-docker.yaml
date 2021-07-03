@@ -1,0 +1,37 @@
+name: Build and Push Docker
+
+on:
+  push:
+    branches:
+      - 'develop'
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          service_account_key: ${{ secrets.GCR_KEY }}
+          project_id: ${{ secrets.PROJECT_ID }}
+          export_default_credentials: true
+
+      # Build docker image
+      - name: Image
+        run: |-
+          docker build --build-arg -t gcr.io/furkanthehuman/atolye:latest .
+      # Configure docker to use the gcloud command-line tool as a credential helper
+      - run: |
+          gcloud auth configure-docker -q
+      # Push image to Google Container Registry
+      - name: Build
+        run: |-
+          docker push gcr.io/furkanthehuman/atolye:latest
