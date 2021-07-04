@@ -35,3 +35,25 @@ jobs:
       - name: Build
         run: |-
           docker push gcr.io/furkanthehuman/atolye:latest
+
+      - name: KUBECONFIG
+        run: |
+          mkdir ~/.kube
+          echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
+
+      - name: Install kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod 700 kubectl
+          sudo cp kubectl /usr/local/bin
+      - name: Create namespace
+        run: kubectl create ns staging --dry-run=client -oyaml | kubectl apply -f -
+
+      - name: Add secert  image pull secret
+        run: kubectl create secret docker-registry gcr-json-key --docker-server=gcr.io --docker-username=_json_key  --docker-password='${{ secrets.GCR_KEY }}'  --docker-email=aksoyfurkan45@gmail.com --dry-run=client -o yaml | kubectl apply -n staging -f -
+
+      - name: Deploy
+        run: kubectl apply -n staging -f manifests/hello.yaml
+
+      - name: Rollout new version
+        run: kubectl rollout restart deployment/atolye -n staging

@@ -4,7 +4,6 @@ metadata:
   labels:
     app: atolye
   name: atolye
-  namespace: staging
 spec:
   replicas: 1
   selector:
