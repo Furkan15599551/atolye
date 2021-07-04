@@ -53,13 +53,13 @@ jobs:
         run: kubectl create secret docker-registry gcr-json-key --docker-server=gcr.io --docker-username=_json_key  --docker-password='${{ secrets.GCR_KEY }}'  --docker-email=aksoyfurkan45@gmail.com --dry-run=client -o yaml | kubectl apply -n prod -f -
 
       - name: Deploy
-        run: kubectl apply -n staging -f manifests/hello.yaml
+        run: kubectl apply -n prod -f manifests/hello.yaml
 
       - name: Deploy
-        run: kubectl apply -n staging -f manifests/service.yaml
+        run: kubectl apply -n prod -f manifests/service.yaml
 
       - name: Deploy
-        run: kubectl apply -n staging -f manifests/ing-prod.yaml
+        run: kubectl apply -n prod -f manifests/ing-prod.yaml
 
       - name: Rollout new version
         run: kubectl rollout restart deployment/atolye -n prod
