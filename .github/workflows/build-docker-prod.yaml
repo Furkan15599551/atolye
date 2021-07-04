@@ -53,7 +53,38 @@ jobs:
         run: kubectl create secret docker-registry gcr-json-key --docker-server=gcr.io --docker-username=_json_key  --docker-password='${{ secrets.GCR_KEY }}'  --docker-email=aksoyfurkan45@gmail.com --dry-run=client -o yaml | kubectl apply -n prod -f -
 
       - name: Deploy
-        run: kubectl apply -n prod -f manifests/hello.yaml
+        run: kubectl apply -n prod -f manifests/
 
       - name: Rollout new version
         run: kubectl rollout restart deployment/atolye -n prod
+      - name: Send mail
+          uses: dawidd6/action-send-mail@v3
+          with:
+            # Required mail server address:
+            server_address: smtp.gmail.com
+            # Required mail server port:
+            server_port: 465
+            # Optional (recommended): mail server username:
+            username: ${{secrets.MAIL_USERNAME}}
+            # Optional (recommended) mail server password:
+            password: ${{secrets.MAIL_PASSWORD}}
+            # Required mail subject:
+            subject: Github Actions job result
+            # Required recipients' addresses:
+            to: aksoyfurkan45@gmail.com
+            # Required sender full name (address can be skipped):
+            from: Megatron <frkn781227@gmail.com>
+            # Optional whether this connection use TLS ()
+            secure: true
+            # Optional plain body:
+            body: |
+              # From ${{github.repository}}
+              Build job of ${{github.repository}} completed successfully!
+              Merged to 'main' branch and deployed to 'prod' namespace
+            # Optional HTML body read from file:
+            # Optional unsigned/invalid certificates allowance:
+            ignore_cert: true
+            # Optional converting Markdown to HTML (set content_type to text/html too):
+            convert_markdown: true
+            # Optional priority: 'high', 'normal' (default) or 'low'
+            priority: low

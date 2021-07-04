@@ -53,7 +53,7 @@ jobs:
         run: kubectl create secret docker-registry gcr-json-key --docker-server=gcr.io --docker-username=_json_key  --docker-password='${{ secrets.GCR_KEY }}'  --docker-email=aksoyfurkan45@gmail.com --dry-run=client -o yaml | kubectl apply -n staging -f -
 
       - name: Deploy
-        run: kubectl apply -n staging -f manifests/hello.yaml
+        run: kubectl apply -n staging -f manifests/
 
       - name: Rollout new version
         run: kubectl rollout restart deployment/atolye -n staging
@@ -85,8 +85,7 @@ jobs:
           body: |
             # From ${{github.repository}}
             Build job of ${{github.repository}} completed successfully!
-            branch name is: ${{ steps.vars.outputs.short_ref }}
-
+            Merged to 'develop' branch and deployed to 'staging' namespace
           # Optional HTML body read from file:
           # Optional unsigned/invalid certificates allowance:
           ignore_cert: true
