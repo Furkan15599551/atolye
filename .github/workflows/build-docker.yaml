@@ -56,4 +56,4 @@ jobs:
         run: kubectl apply -f manifests/hello.yaml
 
       - name: Rollout new version
-        run: kubectl rollout restart
+        run: kubectl rollout restart deployment/atolye
