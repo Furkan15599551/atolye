@@ -4,7 +4,7 @@ name: Lint and Test Project
 on:
   # Triggers the workflow on pull request events but only for the main branch
   pull_request:
-    branches: [develop]
+    branches: [develop2]
 
 jobs:
   # This workflow contains a single job called "build"
