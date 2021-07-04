@@ -1,9 +1,9 @@
-name: Build and Push Docker
+name: Build and Push Docker for Prod
 
 on:
   push:
     branches:
-      - 'develop'
+      - 'main'
 
 jobs:
   build_and_push:
@@ -35,20 +35,3 @@ jobs:
       - name: Build
         run: |-
           docker push gcr.io/furkanthehuman/atolye:latest
-
-      - name: KUBECONFIG
-        run: |
-          mkdir ~/.kube
-          echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
-
-      - name: Install kubectl
-        run: |
-          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-          chmod 700 kubectl
-          sudo cp kubectl /usr/local/bin
-
-      - name: Add secert  image pull secret
-        run: kubectl create secret docker-registry gcr-json-key --docker-server=gcr.io --docker-username=_json_key  --docker-password="${{ secrets.GCR_KEY }}"  --docker-email=aksoyfurkan45@gmail.com
-
-      - name: Deploy
-        run: kubectl apply -f manifests/hello.yaml

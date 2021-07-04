@@ -1,0 +1,21 @@
+kind: Deployment
+metadata:
+  labels:
+    app: atolye
+  name: atolye
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: atolye
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: atolye
+    spec:
+      containers:
+        - image: gcr.io/furkanthehuman/atolye:latest
+          name: atolye
+      imagePullSecrets:
+        - name: gcr-json-key
