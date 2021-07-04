@@ -25,7 +25,7 @@ jobs:
           # Required recipients' addresses:
           to: aksoyfurkan45@gmail.com
           # Required sender full name (address can be skipped):
-          from: Luke Skywalker <aksoyfurkan45@gmail.com>
+          from: Luke Skywalker <frkn781227@gmail.com>
           # Optional whether this connection use TLS ()
           secure: true
           # Optional plain body:
