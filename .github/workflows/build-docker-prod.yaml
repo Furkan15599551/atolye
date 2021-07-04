@@ -1,9 +1,9 @@
-name: Build and Push Docker
+name: Build and Push Docker for Prod
 
 on:
   push:
     branches:
-      - 'develop'
+      - 'main'
 
 jobs:
   build_and_push:
@@ -47,13 +47,13 @@ jobs:
           chmod 700 kubectl
           sudo cp kubectl /usr/local/bin
       - name: Create namespace
-        run: kubectl create ns staging --dry-run=client -oyaml | kubectl apply -f -
+        run: kubectl create ns prod --dry-run=client -oyaml | kubectl apply -f -
 
       - name: Add secert  image pull secret
-        run: kubectl create secret docker-registry gcr-json-key --docker-server=gcr.io --docker-username=_json_key  --docker-password='${{ secrets.GCR_KEY }}'  --docker-email=aksoyfurkan45@gmail.com --dry-run=client -o yaml | kubectl apply -n staging -f -
+        run: kubectl create secret docker-registry gcr-json-key --docker-server=gcr.io --docker-username=_json_key  --docker-password='${{ secrets.GCR_KEY }}'  --docker-email=aksoyfurkan45@gmail.com --dry-run=client -o yaml | kubectl apply -n prod -f -
 
       - name: Deploy
-        run: kubectl apply -n staging -f manifests/hello.yaml
+        run: kubectl apply -n prod -f manifests/hello.yaml
 
       - name: Rollout new version
-        run: kubectl rollout restart deployment/atolye -n staging
+        run: kubectl rollout prod deployment/atolye -n staging
