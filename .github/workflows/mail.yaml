@@ -1,4 +1,4 @@
-name: Build and Push Docker
+name: Send Mail
 
 on:
   push:
@@ -31,7 +31,7 @@ jobs:
           # Optional plain body:
           body: Build job of ${{github.repository}} completed successfully!
           # Optional HTML body read from file:
-          html_body: file://README.html
+          html_body: file://README.md
           # Optional unsigned/invalid certificates allowance:
           ignore_cert: true
           # Optional converting Markdown to HTML (set content_type to text/html too):
