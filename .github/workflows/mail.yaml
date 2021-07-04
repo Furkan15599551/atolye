@@ -26,7 +26,7 @@ jobs:
           to: aksoyfurkan45@gmail.com
           # Required sender full name (address can be skipped):
           from: Luke Skywalker <aksoyfurkan45@gmail.com>
-          # Optional whether this connection use TLS (default is true if server_port is 465)
+          # Optional whether this connection use TLS ()
           secure: true
           # Optional plain body:
           body: Build job of ${{github.repository}} completed successfully!
