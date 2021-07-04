@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: a-ingress
+spec:
+  rules:
+    - host: furkanaksoy-dev.atolye.io
+      http:
+        paths:
+          - backend:
+              serviceName: atolye
+              servicePort: 3000
+            path: /
+            pathType: ImplementationSpecific
