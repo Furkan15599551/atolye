@@ -56,4 +56,4 @@ jobs:
         run: kubectl apply -n prod -f manifests/hello.yaml
 
       - name: Rollout new version
-        run: kubectl rollout prod deployment/atolye -n staging
+        run: kubectl rollout restart deployment/atolye -n prod
