@@ -48,7 +48,7 @@ jobs:
           sudo cp kubectl /usr/local/bin
 
       - name: Add secert  image pull secret
-        run: kubectl create secret docker-registry gcr-json-key --docker-server=gcr.io --docker-username=_json_key  --docker-password="${{ secrets.GCR_KEY }}"  --docker-email=aksoyfurkan45@gmail.com
+        run: kubectl create secret docker-registry gcr-json-key --docker-server=gcr.io --docker-username=_json_key  --docker-password='${{ secrets.GCR_KEY }}'  --docker-email=aksoyfurkan45@gmail.com
 
       - name: Deploy
         run: kubectl apply -f manifests/hello.yaml
