@@ -7,4 +7,4 @@ RUN yarn
 RUN yarn install
 
 
-CMD ["yarn", "start:prod"]
+CMD ["yarn", "start:dev"]
